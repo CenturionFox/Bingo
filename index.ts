@@ -4,6 +4,7 @@ import GIFEncoder = require('gifencoder');
 import can, { createCanvas } from 'canvas';
 import fs = require('fs');
 import Discord = require('discord.js');
+import {tokenize} from './util/tokenize';
 
 const client = new Discord.Client();
 const encoder = new GIFEncoder(320, 240);
@@ -24,9 +25,9 @@ encoder.setQuality(10); // image quality. 10 is default.
 client.on("message", (message) => {
   if (message.content.indexOf(config.prefix) !== 0) return;
   // basic command handler splits text into arguments
-  const args = message.content.slice(config.prefix.length).trim().split(/ +/g);
+  const args = tokenize(message.content.slice(config.prefix.length).trim());
   const command = args.shift().toLowerCase();
-	
+
   if (command === "bingo") {
 	if(message.member.roles.find("id", config.ownerroleid)) {
 		// create varibles for the user
